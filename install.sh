@@ -132,9 +132,9 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait \$\${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 EOF
 
-# Create all containers, so nginx doesnt fail
-step 'Initializing all containers'
-docker-compose up -d
+# Create minecraft container, so nginx doesnt fail
+step 'Initializing minecraft'
+docker-compose up -d minecraft
 
 # Initialize nginx and request cert for the given domain
 step 'Starting secure webserver'
