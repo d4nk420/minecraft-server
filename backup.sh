@@ -8,12 +8,11 @@ CRONFILE="/etc/cron.d/minecraft-backup"
 
 echo -e "Creating Backup directory..."
 mkdir -p $BACKUPDIR
-cd $BACKUPDIR
-BACKUPFULLPATH=$(pwd)
+cd $BACKUPDIR && BACKUPFULLPATH=$(pwd)
 echo -e "Installing cron..."
 cat > $CRONFILE << EOF
 0 4 \* \* \* tar -czf $BACKUPFULLPATH/$FILENAME $MCDIR/world*
 EOF
 
 echo -e "Making first backup..."
-tar -czf $BACKUPDIR/$FILENAME $MCDIR/world*
+tar -czf $BACKUPFULLPATH/$FILENAME $MCDIR/world*
