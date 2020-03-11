@@ -30,9 +30,8 @@ done
 
 # Plugins (make sure they match your version)
 # Combine in one var to loop through
-VIVECRAFT="https://github.com/jrbudda/Vivecraft_Spigot_Extensions/releases/download/1.14.3r1/Vivecraft_Spigot_Extensions.1.14.4r6.zip"
 DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.0-beta-10-spigot.jar"
-PLUGINS="$VIVECRAFT $DYNMAP"
+PLUGINS="$DYNMAP"
 
 # Download Plugins
 step 'Downloading Plugins'
