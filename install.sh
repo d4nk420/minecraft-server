@@ -20,7 +20,7 @@ IMAGE="itzg/minecraft-server"
 step 'Checking Dependencies'
 DEPENDENCIES="docker docker-compose"
 for _DEP in $DEPENDENCIES, do
-  if [ ! -x "$(command -v $_DEP)" ], then
+  if [[ ! -x "$(command -v $_DEP)" ]], then
     echo "$_DEP not installed, installing..."
     apt install -y $_DEP 
   else
