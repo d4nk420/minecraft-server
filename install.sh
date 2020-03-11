@@ -1,5 +1,5 @@
 #!/bin/bash
-## v0.6
+## v0.7
 
 _step_counter=0
 step() {
@@ -13,15 +13,18 @@ SEED="-2143500864"
 MCDIR=$(pwd)
 PLUGINDIR=$MCDIR/plugins
 
-VERSION="1.14.4"
+VERSION="1.15.2"
 IMAGE="itzg/minecraft-server"
 
 # Dependencies
+step 'Checking Dependencies'
 DEPENDENCIES="docker docker-compose"
 for _DEP in $DEPENDENCIES, do
   if ! [ -x "$(command -v $_DEP)" ], then
     echo "$_DEP not installed, installing..."
     apt install -y $_DEP 
+  else
+  	echo "$_DEP already installed, skipping."
   fi
 done
 
@@ -58,7 +61,7 @@ fi
 step 'Gathering Information for certbot'
 echo -e "Please enter your email address for Let's Encrypt\n"
 read -p "Leave blank for unsafe LE registration: " EMAIL
-echo -e "Please enter the domains you want to secure, seperated by whitespaces\nMake sure you have valid DNS records to this machine!\n Registration will fail otherwise"
+echo -e "Please enter the domains you want to secure, seperated by whitespaces\nMake sure you have valid DNS records to this machine!\nRegistration will fail otherwise"
 read -p "Domain(s): " DOMAINS
 
 # Create nginx config
@@ -68,7 +71,7 @@ set -- $DOMAINS
 cat > data/nginx/$1.conf << EOF
 server {
     listen 80;
-    server_name $1;
+    server_name $DOMAINS;
     
     location / {
         return 301 https://\$host\$request_uri;
@@ -80,7 +83,7 @@ server {
 }
 server {
     listen 443 ssl;
-    server_name $1;
+    server_name $DOMAINS;
     ssl_certificate /etc/letsencrypt/live/$1/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$1/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
@@ -136,7 +139,6 @@ docker-compose up -d
 step 'Starting secure webserver'
 ./init-letsencrypt.sh $EMAIL $DOMAINS
 
-# Start that shit up
 step 'Making sure everything is running' 
 docker-compose up -d
 
