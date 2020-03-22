@@ -18,7 +18,7 @@ IMAGE="itzg/minecraft-server"
 
 # Dependencies
 step 'Checking Dependencies'
-DEPENDENCIES="docker docker-compose"
+DEPENDENCIES="docker docker-compose zip"
 for _DEP in $DEPENDENCIES; do
   if ! command -v $_DEP; then
     echo "$_DEP not installed, installing..."
@@ -147,8 +147,8 @@ echo "Do you want daily backups of your minecraft world?"
 select yn in Yes No
 do
   case $yn in
-      Yes) read -p "Where do you want your backup? (Defaults to /srv/mc-backup): " BACKUPDIR
-        ./backup.sh $BACKUPDIR
+      Yes) echo -e "Backups will be saved in ../mc-backups)" 
+        ./backup.sh
         ;;
       No) echo -e "Ok, run backup.sh if you change your mind"
         exit
