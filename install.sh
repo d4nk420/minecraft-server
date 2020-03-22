@@ -132,7 +132,7 @@ EOF
 
 # Create minecraft container, so nginx doesnt fail
 step 'Initializing minecraft'
-docker-compose up -d minecraft
+docker-compose up -d --force-recreate minecraft
 
 # Initialize nginx and request cert for the given domain
 step 'Starting secure webserver'
