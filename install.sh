@@ -1,19 +1,26 @@
 #!/bin/bash
 ## v0.7
+#                                USER VARIABLES                                   #
+###################################################################################
+# Enter custom seed here or leave empty for random
+SEED=""
+# Change version to the one you want
+VERSION="1.15.2"
+
+# Plugins (make sure they match your version)
+# Combine in one var to loop through
+DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.0-beta-10-spigot.jar"
+PLUGINS="$DYNMAP"
+###################################################################################
 
 _step_counter=0
 step() {
 	_step_counter=$(( _step_counter + 1 ))
 	printf '\n\033[1;36m%d) %s\033[0m\n' $_step_counter "$@" >&2  # bold cyan
 }
-
-# Enter custom seed here or leave empty for random
-SEED="-2143500864"
-
+# fixed vars
 MCDIR=$(pwd)
 PLUGINDIR=$MCDIR/plugins
-
-VERSION="1.15.2"
 IMAGE="itzg/minecraft-server"
 
 # Dependencies
@@ -27,11 +34,6 @@ for _DEP in $DEPENDENCIES; do
   	echo "$_DEP already installed, skipping."
   fi
 done
-
-# Plugins (make sure they match your version)
-# Combine in one var to loop through
-DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.0-beta-10-spigot.jar"
-PLUGINS="$DYNMAP"
 
 # Download Plugins
 step 'Downloading Plugins'
