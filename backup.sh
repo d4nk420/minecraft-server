@@ -12,7 +12,7 @@ mkdir -p $BACKUPDIR
 cd $BACKUPDIR && BACKUPFULLPATH=$(pwd)
 echo -e "Installing cron..."
 cat > $CRONFILE << EOF
-0 */6 * * * $BACKUPFULLPATH/$BACKUPSCRIPT
+0 */6 * * * root $BACKUPFULLPATH/$BACKUPSCRIPT
 EOF
 
 echo -e "Creating backup script"
