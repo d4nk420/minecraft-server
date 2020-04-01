@@ -112,6 +112,7 @@ services:
     env_file:
       - mc.env
     command: "--noconsole"
+    restart: always
   certbot:
     container_name: certbot
     image: certbot/certbot
@@ -119,6 +120,7 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait \$\${!}; done;'"
+    restart: always
   nginx:
     container_name: nginx
     image: nginx:latest
@@ -130,6 +132,7 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait \$\${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    restart: always
 EOF
 
 # Create minecraft container, so nginx doesnt fail
