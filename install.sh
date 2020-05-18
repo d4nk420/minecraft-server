@@ -8,7 +8,7 @@ SEED=""
 VERSION="1.15.2"
 
 # Plugins (make sure they match your version)
-# Combine in one var to loop through
+# Combine in one var to loop through, seperated by space
 DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.0-beta-10-spigot.jar"
 PLUGINS="$DYNMAP"
 ###################################################################################
@@ -58,43 +58,19 @@ if [[ $SEED != "" ]]; then
   echo "SEED=$SEED" >> ./mc.env
 fi
 
-# Get email and domains
-step 'Gathering Information for certbot'
-echo -e "Please enter your email address for Let's Encrypt\n"
-read -p "Leave blank for unsafe LE registration: " EMAIL
-echo -e "Please enter the domains you want to secure, seperated by whitespaces\nMake sure you have valid DNS records to this machine!\nRegistration will fail otherwise"
-read -p "Domain(s): " DOMAINS
+# Ask user if a webserver with dynmap should be set up
+echo -e "Do you have control of a domain and want a browser map of your minecraft world?"
+select nginxyn in Yes No
+do
+  case $nginxyn in
+      Yes) 
+        ;;
+      No) echo -e "Ok, run backup.sh if you change your mind"
+        exit
+        ;;
+  esac
+done
 
-# Create nginx config
-step 'Creating nginx configuration file'
-mkdir -p data/nginx
-set -- $DOMAINS
-cat > data/nginx/$1.conf << EOF
-server {
-    listen 80;
-    server_name $DOMAINS;
-    
-    location / {
-        return 301 https://\$host\$request_uri;
-    }    
-    
-    location /.well-known/acme-challenge/ {
-        root /var/www/certbot;
-    }
-}
-server {
-    listen 443 ssl;
-    server_name $DOMAINS;
-    ssl_certificate /etc/letsencrypt/live/$1/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$1/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-    
-    location / {
-        proxy_pass http://minecraft:8123; 
-    }
-}
-EOF
 
 # Create docker compose file
 step 'Creating docker compose file'
