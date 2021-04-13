@@ -22,7 +22,7 @@ DATE=\$(date +"%d-%m-%Y-%H:%M")
 FILENAME="minecraft-wrld-\$DATE.tar.gz"
 BACKUPDIR=$BACKUPFULLPATH
 MCDIR=$MCDIR
-LIMIT="90"
+LIMIT="7"
 
 # Backup
 tar -czf \$BACKUPDIR/\$FILENAME \$MCDIR/world*
