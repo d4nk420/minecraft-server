@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATE=$(date +"%d-%m-%Y-%H:%M")
+DATE=$(date +"%Y-%m-%d-%H:%M")
 FILENAME="minecraft-wrld-$DATE.tar.gz"
 BACKUPDIR=../mc-backups
 MCDIR=$(pwd)
