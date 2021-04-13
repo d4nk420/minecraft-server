@@ -13,6 +13,9 @@ DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.0-beta-10-spigot.jar"
 PLUGINS="$DYNMAP"
 ###################################################################################
 
+echo -e "\n\n\nATTENTION: THIS SCRIPT USES APT TO GET ITS DEPENDENCIES!\nRUN IT ON UBUNTU/DEBIAN OR REWRITE THE DEPENDENCIES INSTALL TO SUITE YOUR DISTRIBUTION.\n\n\n"
+sleep 10
+
 _step_counter=0
 step() {
 	_step_counter=$(( _step_counter + 1 ))
@@ -59,18 +62,18 @@ if [[ $SEED != "" ]]; then
 fi
 
 # Ask user if a webserver with dynmap should be set up
-echo -e "Do you have control of a domain and want a browser map of your minecraft world?"
+echo -e "Do you have set up a valid DNS record to this machines public IP adress and want a browser map of your minecraft world?"
 select nginxyn in Yes No
 do
   case $nginxyn in
-      Yes) 
+      Yes) echo -e "Creating docker-compose with nginx..."
+      	NGINXINSTALL="TRUE"
         ;;
-      No) echo -e "Ok, run backup.sh if you change your mind"
-        exit
+      No) echo -e "Ok, run this script again and choose yes if you decide otherwise... \nCreating docker compose without nginx..."
+        break
         ;;
   esac
 done
-
 
 # Create docker compose file
 step 'Creating docker compose file'
@@ -89,6 +92,10 @@ services:
       - mc.env
     command: "--noconsole"
     restart: always
+EOF
+
+if [ $NGINXINSTALL == "TRUE" ], then
+	cat >> ./docker-compose.yml << EOF
   certbot:
     container_name: certbot
     image: certbot/certbot
@@ -110,6 +117,7 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait \$\${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     restart: always
 EOF
+fi
 
 # Create minecraft container, so nginx doesnt fail
 step 'Initializing minecraft'
