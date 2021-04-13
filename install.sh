@@ -15,7 +15,13 @@ PLUGINS="$DYNMAP"
 ###################################################################################
 
 echo -e "\n\n\nATTENTION: THIS SCRIPT USES APT TO GET ITS DEPENDENCIES!\nRUN IT ON UBUNTU/DEBIAN OR REWRITE THE DEPENDENCIES INSTALL TO SUITE YOUR DISTRIBUTION.\n\n\n"
-sleep 10
+sleep 2
+echo -e "##########################################################################"
+echo -e "#                                                                        #"
+echo -e "#       Welcome to this guided minecraft docker installation.            #"
+echo -e "#                                                                        #"
+echo -e "##########################################################################"
+sleep 1
 
 _step_counter=0
 step() {
@@ -61,18 +67,23 @@ EOF
 if [[ $SEED != "" ]]; then
   echo "SEED=$SEED" >> ./mc.env
 fi
+echo -e "done...\n"
 
 # Ask user if a webserver with dynmap should be set up
+step 'NGINX Setup'
 echo -e "Do you have set up a valid DNS record to this machines public IP adress and want a browser map of your minecraft world?"
 select nginxyn in Yes No
 do
   case $nginxyn in
-      Yes) echo -e "Creating docker-compose with nginx..."
+      Yes) echo -e "Creating docker-compose with nginx...\n"
       	NGINXINSTALL="TRUE"
+	break
         ;;
-      No) echo -e "Ok, run this script again and choose yes if you decide otherwise... \nCreating docker compose without nginx..."
-        break
+      No) echo -e "Ok, run this script again and choose yes if you decide otherwise... \nCreating docker compose without nginx...\n"
+	break
         ;;
+      *) echo "Invalid Input. Choose Yes (1) or No (2)"
+	;;
   esac
 done
 
@@ -84,7 +95,7 @@ services:
   minecraft:
     container_name: minecraft
     image: $IMAGE
-    ports: 
+    ports:
       - "25565:25565"
       - "127.0.0.1:8123:8123"
     volumes:
@@ -94,9 +105,11 @@ services:
     command: "--noconsole"
     restart: always
 EOF
+echo -e "done...\n"
 
 # domain, certbot and nginx config stuff
-if [ $NGINXINSTALL == "TRUE" ], then
+if [ $NGINXINSTALL == "TRUE" ]; then
+	step 'Adding nginx and certbot to config'
 	cat >> ./docker-compose.yml << EOF
   certbot:
     container_name: certbot
@@ -132,7 +145,6 @@ EOF
 server {
     listen 80;
     server_name $DOMAINS;
-    
     location / {
         return 301 https://\$host\$request_uri;
     }
@@ -173,9 +185,10 @@ do
   case $yn in
       Yes) echo -e "Backups will be saved in ../mc-backups)" 
         ./backup.sh
+	exit 0
         ;;
       No) echo -e "Ok, run backup.sh if you change your mind"
-        exit
+        exit 0
         ;;
   esac
 done
