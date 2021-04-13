@@ -95,6 +95,7 @@ services:
     restart: always
 EOF
 
+# domain, certbot and nginx config stuff
 if [ $NGINXINSTALL == "TRUE" ], then
 	cat >> ./docker-compose.yml << EOF
   certbot:
@@ -117,6 +118,39 @@ if [ $NGINXINSTALL == "TRUE" ], then
       - ./data/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait \$\${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     restart: always
+EOF
+	step 'Gathering Information for certbot'
+	echo -e "Please enter your email address for Let's Encrypt\n"
+	read -p "Leave blank for unsafe LE registration: " EMAIL
+	echo -e "Please enter the domains you want to secure, seperated by whitespaces\nMake sure you have valid DNS records to this machine!\nRegistration will fail otherwise"
+	read -p "Domain(s): " DOMAINS
+	# Create nginx config
+	step 'Creating nginx configuration file'
+	mkdir -p data/nginx
+	set -- $DOMAINS
+	cat > data/nginx/$1.conf << EOF
+server {
+    listen 80;
+    server_name $DOMAINS;
+    
+    location / {
+        return 301 https://\$host\$request_uri;
+    }
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+}
+server {
+    listen 443 ssl;
+    server_name $DOMAINS;
+    ssl_certificate /etc/letsencrypt/live/$1/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$1/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    location / {
+        proxy_pass http://minecraft:8123; 
+    }
+}
 EOF
 fi
 
