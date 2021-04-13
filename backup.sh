@@ -18,7 +18,7 @@ EOF
 echo -e "Creating backup script"
 cat > $BACKUPFULLPATH/$BACKUPSCRIPT << EOF
 #!/bin/bash
-DATE=\$(date +"%d-%m-%Y-%H:%M")
+DATE=\$(date +"%Y-%m-%d-%H:%M")
 FILENAME="minecraft-wrld-\$DATE.tar.gz"
 BACKUPDIR=$BACKUPFULLPATH
 MCDIR=$MCDIR
