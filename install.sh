@@ -14,6 +14,12 @@ DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.1-spigot.jar"
 PLUGINS="$DYNMAP"
 ###################################################################################
 
+if [ `whoami` != 'root' ]
+  then
+    echo "You must be root to run this."
+    exit 1
+fi
+
 echo -e "\n\n\nATTENTION: THIS SCRIPT USES APT TO GET ITS DEPENDENCIES!\nRUN IT ON UBUNTU/DEBIAN OR REWRITE THE DEPENDENCIES INSTALL TO SUITE YOUR DISTRIBUTION.\n\n\n"
 sleep 2
 echo -e "##########################################################################"
@@ -70,13 +76,14 @@ fi
 echo -e "done...\n"
 
 # Ask user if a webserver with dynmap should be set up
-step 'NGINX Setup'
+step 'Webserver Setup'
+NGINXINSTALL=0
 echo -e "Do you have set up a valid DNS record to this machines public IP adress and want a browser map of your minecraft world?"
 select nginxyn in Yes No
 do
   case $nginxyn in
       Yes) echo -e "Creating docker-compose with nginx...\n"
-      	NGINXINSTALL="TRUE"
+      	NGINXINSTALL=1
 	break
         ;;
       No) echo -e "Ok, run this script again and choose yes if you decide otherwise... \nCreating docker compose without nginx...\n"
@@ -108,7 +115,7 @@ EOF
 echo -e "done...\n"
 
 # domain, certbot and nginx config stuff
-if [ $NGINXINSTALL == "TRUE" ]; then
+if [ $NGINXINSTALL -eq 1 ]; then
 	step 'Adding nginx and certbot to config'
 	cat >> ./docker-compose.yml << EOF
   certbot:
@@ -164,17 +171,17 @@ server {
     }
 }
 EOF
+
+	# Create minecraft container, so nginx doesnt fail
+	step 'Initializing minecraft'
+	docker-compose up -d --force-recreate minecraft
+
+	# Initialize nginx and request cert for the given domain
+	step 'Starting secure webserver'
+	./init-letsencrypt.sh $EMAIL $DOMAINS
 fi
 
-# Create minecraft container, so nginx doesnt fail
-step 'Initializing minecraft'
-docker-compose up -d --force-recreate minecraft
-
-# Initialize nginx and request cert for the given domain
-step 'Starting secure webserver'
-./init-letsencrypt.sh $EMAIL $DOMAINS
-
-step 'Making sure everything is running' 
+step 'Starting all the docker containers' 
 docker-compose up -d
 
 # Optional Map backup
@@ -190,5 +197,6 @@ do
       No) echo -e "Ok, run backup.sh if you change your mind"
         exit 0
         ;;
+      *) echo -e "Please choose Yes (1) or No (2)."
   esac
 done
