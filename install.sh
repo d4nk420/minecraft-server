@@ -5,12 +5,12 @@
 # Enter custom seed here or leave empty for random
 SEED=""
 # Change version to the one you want
-VERSION="1.16.5"
+VERSION="1.17"
 
 # Plugins (make sure they match your version)
 # Combine in one var to loop through, seperated by space
-#DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.0-beta-10-spigot.jar"
-DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.1-spigot.jar"
+#DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.1-spigot.jar"
+DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.2-beta-2-spigot.jar"
 PLUGINS="$DYNMAP"
 ###################################################################################
 
