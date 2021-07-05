@@ -11,7 +11,7 @@ VERSION="1.17"
 # Combine in one var to loop through, seperated by space
 #DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.1-spigot.jar"
 DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.2-beta-2-fabric-1.17.jar"
-VOICECHAT="https://media.forgecdn.net/files/3375/120/voicechat-fabric-1.17-1.4.5.jar"
+VOICECHAT="https://media.forgecdn.net/files/3377/99/voicechat-fabric-1.17-1.4.5.jar"
 PLUGINS="$DYNMAP $VOICECHAT"
 ###################################################################################
 
