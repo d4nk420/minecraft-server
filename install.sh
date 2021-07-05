@@ -10,9 +10,10 @@ VERSION="1.17"
 # Plugins (make sure they match your version)
 # Combine in one var to loop through, seperated by space
 #DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.1-spigot.jar"
+FABRIC_API="https://media.forgecdn.net/files/3358/619/fabric-api-0.36.0%2B1.17.jar"
 DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.2-beta-2-fabric-1.17.jar"
 VOICECHAT="https://media.forgecdn.net/files/3377/99/voicechat-fabric-1.17-1.4.5.jar"
-PLUGINS="$DYNMAP $VOICECHAT"
+PLUGINS="$FABRIC_API $DYNMAP $VOICECHAT"
 ###################################################################################
 
 if [ `whoami` != 'root' ]
@@ -37,7 +38,7 @@ step() {
 }
 # fixed vars
 MCDIR=$(pwd)
-PLUGINDIR=$MCDIR/plugins
+PLUGINDIR=$MCDIR/mods
 IMAGE="itzg/minecraft-server"
 
 # Dependencies
