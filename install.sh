@@ -9,9 +9,9 @@ VERSION="1.17"
 
 # Plugins (make sure they match your version)
 # Combine in one var to loop through, seperated by space
-#DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.1-spigot.jar"
-DYNMAP="http://dynmap.us/builds/dynmap/Dynmap-3.2-beta-2-spigot.jar"
-VOICECHAT="https://media.forgecdn.net/files/3375/120/voicechat-bukkit-1.17-1.4.1.jar"
+#DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.1-spigot.jar"
+DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.2-beta-2-fabric-1.17.jar"
+VOICECHAT="https://media.forgecdn.net/files/3375/120/voicechat-fabric-1.17-1.4.5.jar"
 PLUGINS="$DYNMAP $VOICECHAT"
 ###################################################################################
 
@@ -67,7 +67,7 @@ unzip -n $PLUGINDIR/*.zip -d $PLUGINDIR
 step 'Creating env file for mc container'
 cat > ./mc.env << EOF
 EULA=TRUE
-TYPE=SPIGOT
+TYPE=FABRIC
 VERSION=$VERSION
 MOTD="Minecraft $VERSION"
 EOF
