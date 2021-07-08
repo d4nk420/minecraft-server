@@ -43,7 +43,7 @@ IMAGE="itzg/minecraft-server"
 
 # Dependencies
 step 'Checking Dependencies'
-DEPENDENCIES="docker docker-compose zip"
+DEPENDENCIES="docker docker-compose zip wget"
 for _DEP in $DEPENDENCIES; do
   if ! command -v $_DEP; then
     echo "$_DEP not installed, installing..."
