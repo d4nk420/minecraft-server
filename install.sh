@@ -1,18 +1,17 @@
 #!/bin/bash
-## v0.7
+## v1.19
 #                                USER VARIABLES                                   #
 ###################################################################################
 # Enter custom seed here or leave empty for random
 SEED=""
 # Change version to the one you want
-VERSION="1.17"
+VERSION="1.19"
 
 # Plugins (make sure they match your version)
 # Combine in one var to loop through, seperated by space
-#DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.1-spigot.jar"
-FABRIC_API="https://media.forgecdn.net/files/3358/619/fabric-api-0.36.0%2B1.17.jar"
-DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.2-beta-2-fabric-1.17.jar"
-VOICECHAT="https://media.forgecdn.net/files/3377/99/voicechat-fabric-1.17-1.4.5.jar"
+FABRIC_API="https://mediafiles.forgecdn.net/files/3845/981/fabric-api-0.56.3%2B1.19.jar"
+DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-HEAD-fabric-1.19.jar"
+VOICECHAT="https://mediafiles.forgecdn.net/files/3825/854/voicechat-fabric-1.19-2.2.45.jar"
 PLUGINS="$FABRIC_API $DYNMAP $VOICECHAT"
 ###################################################################################
 
