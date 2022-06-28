@@ -1,11 +1,11 @@
 #!/bin/bash
-## v0.7
+## v1.19
 #                                USER VARIABLES                                   #
 ###################################################################################
 # Enter custom seed here or leave empty for random
 SEED=""
 # Change version to the one you want
-VERSION="1.17"
+VERSION="1.19"
 
 # Plugins (make sure they match your version)
 # Combine in one var to loop through, seperated by space
