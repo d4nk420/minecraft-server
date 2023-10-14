@@ -110,7 +110,6 @@ services:
       - .:/data
     env_file:
       - mc.env
-    command: "--noconsole"
     restart: always
 EOF
 echo -e "done...\n"
