@@ -5,13 +5,13 @@
 # Enter custom seed here or leave empty for random
 SEED=""
 # Change version to the one you want
-VERSION="1.19"
+VERSION="1.20.2"
 
 # Plugins (make sure they match your version)
 # Combine in one var to loop through, seperated by space
-FABRIC_API="https://mediafiles.forgecdn.net/files/3845/981/fabric-api-0.56.3%2B1.19.jar"
-DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-HEAD-fabric-1.19.jar"
-VOICECHAT="https://mediafiles.forgecdn.net/files/3825/854/voicechat-fabric-1.19-2.2.45.jar"
+FABRIC_API="https://mediafilez.forgecdn.net/files/4787/714/fabric-api-0.90.0%2B1.20.2.jar"
+DYNMAP="https://dynmap.us/builds/dynmap/Dynmap-3.7-beta-2-fabric-1.20.2.jar"
+VOICECHAT="https://mediafilez.forgecdn.net/files/4782/450/voicechat-fabric-1.20.2-2.4.26.jar"
 PLUGINS="$FABRIC_API $DYNMAP $VOICECHAT"
 ###################################################################################
 
